@@ -1,0 +1,31 @@
+[
+    {
+      "id": "1",
+      "name": "Tomato",
+      "season": "Summer",
+      "soil": "Fertile, well-drained soil",
+      "yield": "8 to 4 tons per hectare",
+      "countries": ["China", "India", "Russia"],
+      "image": "/images/tomato.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Cucumber",
+      "season": "Spring or winter",
+      "soil": "Well-drained, loamy soil",
+      "yield": "4 to 6 tons per hectare",
+      "countries": ["China", "India", "Indonesia"],
+      "image": "/images/cucumber.jpg"
+    },
+    {
+      "id": "3",
+      "name": "strawberry",
+      "season": "Summer",
+      "soil": "Well-drained soil",
+      "yield": "2 to 3 tons per hectare",
+      "countries": ["USA", "Brazil", "Argentina"],
+      "image": "/images/strawberry.jpg"
+    }
+  ]
+
+  

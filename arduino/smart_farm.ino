@@ -1,6 +1,7 @@
 #include <DHT.h>
 #include <Servo.h>
 #include <SoftwareSerial.h>
+SoftwareSerial bluetooth(A5, A4); // A4 = RX, A5 = TX
 
 // حساس الحرارة
 #define DHTPIN 2
@@ -22,7 +23,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 Servo windowServo;
 
-String command = "MODE_AUTO";
+String command = "";
 bool isAutoMode = true;
 
 volatile int flowPulseCount = 0;
@@ -151,6 +152,8 @@ void loop() {
   if (bluetooth.available()) {
     command = bluetooth.readStringUntil('\n');
     command.trim();
+    Serial.print("Received from Bluetooth: ");
+    Serial.println(command);
     handleCommand("bluetooth");
   }
 
@@ -164,6 +167,7 @@ void loop() {
     updatePlantSettings(); // ← تحديث الإعدادات حسب نوع النبتة
 
     float temp = dht.readTemperature();
+    Serial.println(temp);
     if (isnan(temp)) {
       Serial.println("خطأ في قراءة حساس الحرارة");
       bluetooth.println("خطأ في قراءة حساس الحرارة");
@@ -185,6 +189,7 @@ void loop() {
       String data = "Temp: " + String(temp) + "C | Soil: " + (soilMoisture == HIGH ? "جافة" : "رطبة")
                     + " | Light: " + String(lightLevel)
                     + " | Flow: " + String(flowRate) + " L/min";
+      bool fanIsOn = false;
       String json = "{";
         json += "\"temperature\":" + String(temp) + ",";
         json += "\"soilMoisture\":\"" + String(soilMoisture == HIGH ? "Dry" : "Wet") + "\",";
@@ -228,12 +233,12 @@ void loop() {
       delay(3000);
       digitalWrite(WATER_PUMP, HIGH);
       delay(3000);
-          }
+    }
 
     // تشغيل الضوء حسب الإضاءة
     if (lightLevel < 500) digitalWrite(LIGHT_BULB, HIGH);
     else digitalWrite(LIGHT_BULB, LOW);
   }
-
+Serial.println("{\"temperature\":25.5,\"soil\":\"رطبة\",\"light\":600,\"flow\":1.2}");
   delay(200);
 }

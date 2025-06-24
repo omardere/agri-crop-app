@@ -14,10 +14,11 @@ import { useParams } from "react-router-dom";
 import type { Crop } from "../types/crop";
 
 interface SensorData {
-  temp: number;
-  soil: string;
-  light: number;
-  flow: number;
+  temperature: number;
+  soilMoisture: string;
+  lightLevel: number;
+  flowRate: number;
+  fanOn: boolean;
 }
 
 const CropDetailsPage = () => {
@@ -73,7 +74,6 @@ const CropDetailsPage = () => {
       await axios.post("http://localhost:5000/api/send-command", {
         command: cmd,
       });
-      alert(`Command '${cmd}' sent`);
     } catch (err) {
       console.error(err);
       //   alert("Error sending command");
@@ -177,7 +177,9 @@ const CropDetailsPage = () => {
                 <Card>
                   <CardContent>
                     <Typography variant="h6">Temperature</Typography>
-                    <Typography>{sensorData?.temp ?? "--"} °C</Typography>
+                    <Typography>
+                      {sensorData?.temperature ?? "--"} °C
+                    </Typography>
                   </CardContent>
                 </Card>
               </Grid>
@@ -185,7 +187,7 @@ const CropDetailsPage = () => {
                 <Card>
                   <CardContent>
                     <Typography variant="h6">Soil</Typography>
-                    <Typography>{sensorData?.soil ?? "--"}</Typography>
+                    <Typography>{sensorData?.soilMoisture ?? "--"}</Typography>
                   </CardContent>
                 </Card>
               </Grid>
@@ -193,7 +195,7 @@ const CropDetailsPage = () => {
                 <Card>
                   <CardContent>
                     <Typography variant="h6">Light</Typography>
-                    <Typography>{sensorData?.light ?? "--"}</Typography>
+                    <Typography>{sensorData?.lightLevel ?? "--"}</Typography>
                   </CardContent>
                 </Card>
               </Grid>
@@ -201,7 +203,17 @@ const CropDetailsPage = () => {
                 <Card>
                   <CardContent>
                     <Typography variant="h6">Flow Rate</Typography>
-                    <Typography>{sensorData?.flow ?? "--"} L/min</Typography>
+                    <Typography>
+                      {sensorData?.flowRate ?? "--"} L/min
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">Fan Status</Typography>
+                    <Typography>{sensorData?.fanOn ? "On" : "Off"} </Typography>
                   </CardContent>
                 </Card>
               </Grid>
